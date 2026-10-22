@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(ex.getCodigo().name(), ex.getMessage()));
     }
 
-    /** JSON mal formado, enum desconocido o parámetro/ruta con tipo incorrecto. */
+    /** JSON mal formado, enum desconocido o parámetro/ruta incorrecto. */
     @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
     public ResponseEntity<ErrorResponse> manejarDatosInvalidos(Exception ex) {
         return ResponseEntity

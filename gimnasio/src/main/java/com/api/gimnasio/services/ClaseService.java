@@ -6,6 +6,7 @@ import com.api.gimnasio.dtos.OperacionCupo;
 import com.api.gimnasio.models.CodigoError;
 import com.api.gimnasio.models.Clase;
 import com.api.gimnasio.models.Disciplina;
+import com.api.gimnasio.models.Sucursal;
 import com.api.gimnasio.repositories.ClaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +30,9 @@ public class ClaseService {
 
     /** consultarClases: clases que aún no inician, con filtros opcionales. */
     @Transactional(readOnly = true)
-    public List<ClaseResponse> consultarClases(String sucursal, Disciplina disciplina, LocalDate fecha) {
+    public List<ClaseResponse> consultarClases(Sucursal sucursal, Disciplina disciplina, LocalDate fecha) {
         return claseRepository.findByFechaHoraAfterOrderByFechaHoraAsc(LocalDateTime.now()).stream()
-                .filter(c -> sucursal == null || sucursal.isBlank() || c.getSucursal().equalsIgnoreCase(sucursal.trim()))
+                .filter(c -> sucursal == null || c.getSucursal() == sucursal)
                 .filter(c -> disciplina == null || c.getDisciplina() == disciplina)
                 .filter(c -> fecha == null || c.getFechaHora().toLocalDate().equals(fecha))
                 .map(c -> new ClaseResponse(c.getId(), c.getNombre(), c.getDisciplina(),
@@ -67,7 +68,7 @@ public class ClaseService {
         return aCupoResponse(clase);
     }
 
-    /** Uso interno de los demás servicios (no es un endpoint). */
+    /** Uso interno de los demás servicios. */
     @Transactional(readOnly = true)
     public Clase obtenerClase(Long idClase) {
         validarId(idClase);

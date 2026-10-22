@@ -4,6 +4,7 @@ import com.api.gimnasio.dtos.ClaseResponse;
 import com.api.gimnasio.dtos.CupoResponse;
 import com.api.gimnasio.dtos.CupoUpdateRequest;
 import com.api.gimnasio.models.Disciplina;
+import com.api.gimnasio.models.Sucursal;
 import com.api.gimnasio.services.ClaseService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,10 @@ public class ClaseController {
         this.claseService = claseService;
     }
 
-    /** consultarClases: GET /api/clases?sucursal=Centro&disciplina=YOGA&fecha=2026-10-20 */
+    /** consultarClases */
     @GetMapping
     public List<ClaseResponse> consultarClases(
-            @RequestParam(required = false) String sucursal,
+            @RequestParam(required = false) Sucursal sucursal,
             @RequestParam(required = false) Disciplina disciplina,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return claseService.consultarClases(sucursal, disciplina, fecha);

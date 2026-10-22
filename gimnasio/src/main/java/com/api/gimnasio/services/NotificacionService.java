@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Servicio de utilidad Notificación (dominio Comunicación).
+ * Servicio de Notificación.
  * Capacidades: enviarConfirmacion y programarRecordatorio.
  *
  * Es un servicio genérico (no contiene reglas del gimnasio): solo recibe destinatario,

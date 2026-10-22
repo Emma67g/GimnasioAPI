@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 /**
- * Servicio de entidad Membresía (dominio Membresías).
+ * Servicio de Membresía.
  * Capacidad: consultarMembresia.
  */
 @Service
@@ -29,7 +29,7 @@ public class MembresiaService {
                 estaVigenteEn(m, LocalDate.now()));
     }
 
-    /** Uso interno de los demás servicios (no es un endpoint). */
+    /** Uso interno de los demás servicios. */
     @Transactional(readOnly = true)
     public Membresia obtenerMembresia(String numeroSocio) {
         if (numeroSocio == null || numeroSocio.trim().length() != 8) {

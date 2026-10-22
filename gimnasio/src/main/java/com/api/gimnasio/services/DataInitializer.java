@@ -3,6 +3,7 @@ package com.api.gimnasio.services;
 import com.api.gimnasio.models.Clase;
 import com.api.gimnasio.models.Disciplina;
 import com.api.gimnasio.models.Membresia;
+import com.api.gimnasio.models.Sucursal;
 import com.api.gimnasio.repositories.ClaseRepository;
 import com.api.gimnasio.repositories.MembresiaRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -30,13 +31,13 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         if (claseRepository.count() == 0) {
             LocalDate manana = LocalDate.now().plusDays(1);
-            Clase llena = new Clase("Spinning express", Disciplina.SPINNING, "Centro", manana.atTime(20, 0));
+            Clase llena = new Clase("Spinning express", Disciplina.SPINNING, Sucursal.CENTRO, manana.atTime(20, 0));
             llena.setLugaresOcupados(Clase.CAPACIDAD_MAXIMA);
 
             claseRepository.saveAll(List.of(
-                    new Clase("Yoga matutino", Disciplina.YOGA, "Centro", manana.atTime(7, 0)),
-                    new Clase("Spinning vespertino", Disciplina.SPINNING, "Norte", manana.atTime(18, 0)),
-                    new Clase("Funcional intenso", Disciplina.FUNCIONAL, "Sur", manana.plusDays(1).atTime(19, 0)),
+                    new Clase("Yoga matutino", Disciplina.YOGA, Sucursal.CENTRO, manana.atTime(7, 0)),
+                    new Clase("Spinning vespertino", Disciplina.SPINNING, Sucursal.NORTE, manana.atTime(18, 0)),
+                    new Clase("Funcional intenso", Disciplina.FUNCIONAL, Sucursal.SUR, manana.plusDays(1).atTime(19, 0)),
                     llena));
         }
         if (membresiaRepository.count() == 0) {

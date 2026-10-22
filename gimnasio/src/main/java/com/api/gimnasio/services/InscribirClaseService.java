@@ -52,13 +52,13 @@ public class InscribirClaseService {
         String numeroSocio = request.numeroSocio().trim();
         Long idClase = request.idClase();
 
-        // 1. La clase debe existir y no haber iniciado.
+        // La clase debe existir y no haber iniciado.
         Clase clase = claseService.obtenerClase(idClase);
         if (!clase.getFechaHora().isAfter(LocalDateTime.now())) {
             throw new ApiException(CodigoError.CLASE_YA_INICIADA, "La clase ya inició o ya terminó.");
         }
 
-        // 2. Membresía vigente el día de la clase (consultarMembresia).
+        // Membresía vigente el día de la clase (consultarMembresia).
         Membresia membresia = membresiaService.obtenerMembresia(numeroSocio);
         if (!membresiaService.estaVigenteEn(membresia, clase.getFechaHora().toLocalDate())) {
             throw new ApiException(CodigoError.MEMBRESIA_VENCIDA,
@@ -66,10 +66,10 @@ public class InscribirClaseService {
                             + ", antes de la fecha de la clase.");
         }
 
-        // 3. El socio no debe estar ya inscrito.
+        // El socio no debe estar ya inscrito.
         inscripcionService.validarInscripcionNueva(numeroSocio, idClase);
 
-        // 4. Debe haber cupo (consultarCupo) y el lugar se reserva de forma atómica (actualizarCupo).
+        // Debe haber cupo (consultarCupo) y el lugar se reserva de forma atómica (actualizarCupo).
         CupoResponse cupo = claseService.consultarCupo(idClase);
         if (!cupo.hayCupo()) {
             throw new ApiException(CodigoError.CLASE_SIN_CUPO,
@@ -77,15 +77,15 @@ public class InscribirClaseService {
         }
         claseService.actualizarCupo(idClase, OperacionCupo.RESERVAR);
 
-        // 5. Registrar la inscripción (registrarInscripcion).
+        // Registrar la inscripción (registrarInscripcion).
         Inscripcion inscripcion = inscripcionService.registrarInscripcion(numeroSocio, clase);
 
-        // 6. Mensajes asíncronos y unidireccionales (enviarConfirmacion, programarRecordatorio).
+        // Mensajes asíncronos y unidireccionales (enviarConfirmacion, programarRecordatorio).
         String fecha = clase.getFechaHora().format(FECHA);
         String hora = clase.getFechaHora().format(HORA);
         notificacionService.enviarConfirmacion(numeroSocio, idClase,
                 "Hola " + membresia.getNombreSocio() + ", quedaste inscrito en " + clase.getNombre()
-                        + " (sucursal " + clase.getSucursal() + ") el " + fecha + " a las " + hora
+                        + " (sucursal " + clase.getSucursal().getEtiqueta() + ") el " + fecha + " a las " + hora
                         + ". Folio: " + inscripcion.getId() + ".");
 
         LocalDateTime momentoRecordatorio = clase.getFechaHora().minusHours(horasAntesRecordatorio);
@@ -93,7 +93,7 @@ public class InscribirClaseService {
             momentoRecordatorio = LocalDateTime.now(); // la clase empieza en menos de 2 horas
         }
         notificacionService.programarRecordatorio(numeroSocio, idClase, momentoRecordatorio,
-                "Recordatorio: tu clase " + clase.getNombre() + " en la sucursal " + clase.getSucursal()
+                "Recordatorio: tu clase " + clase.getNombre() + " en la sucursal " + clase.getSucursal().getEtiqueta()
                         + " comienza hoy a las " + hora + ".");
 
         return inscripcionService.aResponse(inscripcion);

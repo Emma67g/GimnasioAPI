@@ -66,7 +66,7 @@ public class InscripcionService {
 
     public InscripcionResponse aResponse(Inscripcion i) {
         Clase c = i.getClase();
-        return new InscripcionResponse(i.getId(), i.getEstado().name(), c.getNombre(), c.getSucursal(), c.getFechaHora());
+        return new InscripcionResponse(i.getId(), i.getEstado().name(), c.getNombre(), c.getSucursal().name(), c.getFechaHora());
     }
 
     private ApiException duplicada() {

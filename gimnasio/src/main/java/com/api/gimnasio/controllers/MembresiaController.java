@@ -17,7 +17,7 @@ public class MembresiaController {
         this.membresiaService = membresiaService;
     }
 
-    /** consultarMembresia: GET /api/membresias/{numeroSocio} */
+    /** consultarMembresia */
     @GetMapping("/{numeroSocio}")
     public MembresiaResponse consultarMembresia(@PathVariable String numeroSocio) {
         return membresiaService.consultarMembresia(numeroSocio);

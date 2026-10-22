@@ -20,7 +20,7 @@ public class InscribirClaseController {
         this.inscribirClaseService = inscribirClaseService;
     }
 
-    /** inscribirEnClase: POST /api/inscribir-clase con {"numeroSocio": "FZ000001", "idClase": 1} */
+    /** inscribirEnClase */
     @PostMapping
     public ResponseEntity<InscripcionResponse> inscribirEnClase(@RequestBody InscripcionRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(inscribirClaseService.inscribirEnClase(request));

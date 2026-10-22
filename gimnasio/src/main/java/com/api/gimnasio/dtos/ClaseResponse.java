@@ -1,6 +1,7 @@
 package com.api.gimnasio.dtos;
 
 import com.api.gimnasio.models.Disciplina;
+import com.api.gimnasio.models.Sucursal;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +10,7 @@ public record ClaseResponse(
         Long id,
         String nombre,
         Disciplina disciplina,
-        String sucursal,
+        Sucursal sucursal,
         LocalDateTime fechaHora,
         int cupoDisponible) {
 }

@@ -32,8 +32,9 @@ public class Clase {
     @Column(nullable = false, length = 20)
     private Disciplina disciplina;
 
-    @Column(nullable = false, length = 60)
-    private String sucursal;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Sucursal sucursal;
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
@@ -47,7 +48,7 @@ public class Clase {
     protected Clase() {
     }
 
-    public Clase(String nombre, Disciplina disciplina, String sucursal, LocalDateTime fechaHora) {
+    public Clase(String nombre, Disciplina disciplina, Sucursal sucursal, LocalDateTime fechaHora) {
         this.nombre = nombre;
         this.disciplina = disciplina;
         this.sucursal = sucursal;
@@ -61,7 +62,7 @@ public class Clase {
     public Long getId() { return id; }
     public String getNombre() { return nombre; }
     public Disciplina getDisciplina() { return disciplina; }
-    public String getSucursal() { return sucursal; }
+    public Sucursal getSucursal() { return sucursal; }
     public LocalDateTime getFechaHora() { return fechaHora; }
     public int getCapacidadMaxima() { return capacidadMaxima; }
     public int getLugaresOcupados() { return lugaresOcupados; }
