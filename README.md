@@ -29,6 +29,54 @@ Spring Boot 4.1.1 · Java 21 · Maven · Spring Web · Spring Data JPA · MySQL.
 
 FitZone tiene tres sucursales, modeladas con el enum `Sucursal`: `NORTE`, `CENTRO` y `SUR`. Cada clase pertenece a una sucursal y el cupo de 20 se cuenta por clase. Un valor distinto en el filtro responde `DATOS_INVALIDOS` (400); escríbelo en mayúsculas.
 
+## Instrucciones para ejecución local
+
+### Requisitos previos
+
+- JDK 21
+- Git
+- MySQL 8 en ejecución
+- Postman (para probar la API)
+
+### Instalación
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone https://github.com/Emma67g/GimnasioAPI.git
+   cd gimnasio
+   ```
+
+2. **Preparar la base de datos.** No es necesario crearla a mano: la URL de conexión incluye `createDatabaseIfNotExist=true`, por lo que la base `fitzone` se crea al iniciar. Solo asegúrate de que MySQL esté corriendo y de tener un usuario con permisos.
+
+3. **Configurar las variables de entorno** 
+
+La aplicación lee su configuración desde variables de entorno, con valores por defecto.
+
+| Variable | Descripción | Valor por defecto |
+|---|---|---|
+| `DB_URL` | URL JDBC de MySQL | `jdbc:mysql://localhost:3306/fitzone?createDatabaseIfNotExist=true&serverTimezone=UTC` |
+| `DB_USERNAME` | Usuario de MySQL | *(obligatorio)* |
+| `DB_PASSWORD` | Contraseña de MySQL | *(obligatorio)* |
+| `SERVER_PORT` | Puerto de la API | `8080 (predeterminado)` |
+
+4. **Ejecutar la aplicación**
+
+   ```bash
+   # Linux / macOS
+   ./mvnw spring-boot:run
+
+   # Windows
+   mvnw.cmd spring-boot:run
+   ```
+
+   También puedes generar el `.jar` y ejecutarlo:
+
+   ```bash
+   ./mvnw clean package
+   java -jar target/*.jar
+   ```
+
 ## Datos de prueba
 
 Socios: `FZ000001` (vigente), `FZ000002` (vencida), `FZ000003` (vigente).
